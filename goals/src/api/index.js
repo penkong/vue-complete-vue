@@ -20,3 +20,20 @@ export const fetchActivities = () => {
     }
   };
 };
+
+export const fetchCategories = () => {
+  return {
+    "1546969049": {
+      text: "books"
+    },
+    "1546969225": {
+      text: "movies"
+    }
+  };
+};
+export const fetchUser = () => {
+  return {
+    name: "Filip Jerga",
+    id: "Aj34jknvncx98812"
+  };
+};

@@ -35,7 +35,11 @@
               </div>
               <div class="field is-grouped">
                 <div class="control">
-                  <button @click="createActivity" class="button is-link">Create Activity</button>
+                  <button
+                    @click="createActivity"
+                    :disabled="!isFormValid"
+                    class="button is-link"
+                  >Create Activity</button>
                 </div>
                 <div class="control">
                   <button @click="toggleFormDisplay" class="button is-text">Cancel</button>
@@ -47,6 +51,8 @@
         <div class="column is-9">
           <div class="box content">
             <ActivityItem v-for="activity in activities" :activity="activity" :key="activity.id"></ActivityItem>
+            <div class="activity-length">currently {{ acitivityLength }} activities</div>
+            <div class="activity-motivation">{{ acitivityMotivation }}</div>
           </div>
         </div>
       </div>
@@ -56,7 +62,7 @@
 
 <script>
 import ActivityItem from "@/components/ActivityItem";
-import { fetchActivities } from "@/api";
+import { fetchActivities, fetchCategories, fetchUser } from "@/api";
 export default {
   name: "Home",
   components: {
@@ -65,36 +71,44 @@ export default {
   data() {
     return {
       isFormDisplayed: false,
-      message: "Hello Vue!",
-      titleMessage: "Title Message Vue!!!!!",
-      isTextDisplayed: true,
+      creator: "mkz",
+      appName: "goals planner",
       newActivity: {
         title: "",
         notes: ""
       },
       items: { 1: { name: "Filip" }, 2: { name: "John" } },
-      user: {
-        name: "Filip Jerga",
-        id: "-Aj34jknvncx98812"
-      },
+      user: {},
       activities: {},
-      categories: {
-        "1546969049": {
-          text: "books"
-        },
-        "1546969225": {
-          text: "movies"
-        }
-      }
+      categories: {}
     };
+  },
+  computed: {
+    // computed will cache in browser
+    // data we need to cache with funcs
+    isFormValid() {
+      return this.newActivity.title && this.newActivity.notes;
+    },
+    acitivityLength() {
+      // it bring back arr.
+      return Object.keys(this.activities).length;
+    },
+    acitivityMotivation() {
+      if (this.acitivityLength && this.acitivityLength < 5) {
+        return "Nice to see some goals";
+      } else if (this.acitivityLength >= 5) {
+        return "So many acitivies! good Job";
+      } else {
+        return "No Activities;";
+      }
+    }
   },
   created() {
     this.activities = fetchActivities();
+    this.user = fetchUser();
+    this.categories = fetchCategories();
   },
   methods: {
-    toggleTextDisplay() {
-      this.isTextDisplayed = !this.isTextDisplayed;
-    },
     toggleFormDisplay() {
       this.isFormDisplayed = !this.isFormDisplayed;
     },
@@ -114,7 +128,12 @@ body {
 footer {
   background-color: #f2f6fa !important;
 }
-
+.activity-motivation {
+  float: right;
+}
+.activity-length {
+  display: inline-block;
+}
 .example-wrapper {
   margin-left: 30px;
 }

@@ -25,12 +25,7 @@
 <script>
 export default {
   name: "AcitvityItem",
-  props: {
-    acitvity: {
-      type: Object,
-      required: true
-    }
-  }
+  props: ["activity"]
 };
 </script>
 
