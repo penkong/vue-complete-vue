@@ -24,10 +24,12 @@ export const fetchActivities = () => {
 export const fetchCategories = () => {
   return {
     "1546969049": {
-      text: "books"
+      text: "books",
+      id: "1546969049"
     },
     "1546969225": {
-      text: "movies"
+      text: "movies",
+      id: "1546969225"
     }
   };
 };

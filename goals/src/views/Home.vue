@@ -3,50 +3,7 @@
     <section class="container">
       <div class="columns">
         <div class="column is-3">
-          <a
-            v-if="!isFormDisplayed"
-            @click="toggleFormDisplay"
-            class="button is-primary is-block is-alt is-large"
-            href="#"
-          >New Activity</a>
-          <div v-if="isFormDisplayed" class="create-form">
-            <h2>Create Activity</h2>
-            <form>
-              <div class="field">
-                <label class="label">Title</label>
-                <div class="control">
-                  <input
-                    v-model="newActivity.title"
-                    class="input"
-                    type="text"
-                    placeholder="Read a Book"
-                  />
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">Notes</label>
-                <div class="control">
-                  <textarea
-                    v-model="newActivity.notes"
-                    class="textarea"
-                    placeholder="Write some notes here"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="field is-grouped">
-                <div class="control">
-                  <button
-                    @click="createActivity"
-                    :disabled="!isFormValid"
-                    class="button is-link"
-                  >Create Activity</button>
-                </div>
-                <div class="control">
-                  <button @click="toggleFormDisplay" class="button is-text">Cancel</button>
-                </div>
-              </div>
-            </form>
-          </div>
+          <ActivityCreate :categories="categories" />
         </div>
         <div class="column is-9">
           <div class="box content">
@@ -62,21 +19,18 @@
 
 <script>
 import ActivityItem from "@/components/ActivityItem";
+import ActivityCreate from "@/components/ActivityCreate";
 import { fetchActivities, fetchCategories, fetchUser } from "@/api";
 export default {
   name: "Home",
   components: {
+    ActivityCreate,
     ActivityItem
   },
   data() {
     return {
-      isFormDisplayed: false,
       creator: "mkz",
       appName: "goals planner",
-      newActivity: {
-        title: "",
-        notes: ""
-      },
       items: { 1: { name: "Filip" }, 2: { name: "John" } },
       user: {},
       activities: {},
@@ -86,9 +40,6 @@ export default {
   computed: {
     // computed will cache in browser
     // data we need to cache with funcs
-    isFormValid() {
-      return this.newActivity.title && this.newActivity.notes;
-    },
     acitivityLength() {
       // it bring back arr.
       return Object.keys(this.activities).length;
@@ -108,14 +59,7 @@ export default {
     this.user = fetchUser();
     this.categories = fetchCategories();
   },
-  methods: {
-    toggleFormDisplay() {
-      this.isFormDisplayed = !this.isFormDisplayed;
-    },
-    createActivity() {
-      console.log(this.newActivity);
-    }
-  }
+  methods: {}
 };
 </script>
 
