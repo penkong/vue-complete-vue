@@ -56,7 +56,12 @@ export default {
     }
   },
   created() {
-    this.activities = fetchActivities();
+    // this.activities = fetchActivities();
+    fetchActivities()
+      .then(activities => {
+        this.activities = activities;
+      })
+      .catch(err => console.log(err));
     this.user = fetchUser();
     this.categories = fetchCategories();
   },
@@ -67,7 +72,6 @@ export default {
       // 3args = obj we want add to it, id , what will add to it.
       // vue set bring reactivity.
       Vue.set(this.activities, newActivity.id, newActivity);
-      console.log(this.activities);
     }
   }
 };

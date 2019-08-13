@@ -1,24 +1,39 @@
+const activities = {
+  "1546968934": {
+    id: "1546968934",
+    title: "Learn Vue.js",
+    notes: "I started today and it was not good.",
+    progress: 0,
+    category: "1546969049",
+    createdAt: 1546969144391,
+    updatedAt: 1546969144391
+  },
+  "1546969212": {
+    id: "1546969212",
+    title: "Read Witcher Books",
+    notes: "These books are super nice",
+    progress: 0,
+    category: "1546969049",
+    createdAt: 1546969144391,
+    updatedAt: 1546969144391
+  }
+};
+// condition for reject
+const canContinue = () => {
+  const rdmNum = Math.floor(Math.random() * 10);
+  return rdmNum > 3 ? true : false;
+};
+
 export const fetchActivities = () => {
-  return {
-    "1546968934": {
-      id: "1546968934",
-      title: "Learn Vue.js",
-      notes: "I started today and it was not good.",
-      progress: 0,
-      category: "1546969049",
-      createdAt: 1546969144391,
-      updatedAt: 1546969144391
-    },
-    "1546969212": {
-      id: "1546969212",
-      title: "Read Witcher Books",
-      notes: "These books are super nice",
-      progress: 0,
-      category: "1546969049",
-      createdAt: 1546969144391,
-      updatedAt: 1546969144391
-    }
-  };
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (canContinue()) {
+        resolve(activities);
+      } else {
+        reject("Can not fetch data");
+      }
+    }, 2000);
+  });
 };
 
 const generateUID = () => Math.floor(new Date() * Math.random());

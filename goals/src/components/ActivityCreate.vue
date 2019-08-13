@@ -74,7 +74,11 @@ export default {
   },
   computed: {
     isFormValid() {
-      return this.newActivity.title && this.newActivity.notes;
+      return (
+        this.newActivity.title &&
+        this.newActivity.notes &&
+        this.newActivity.category
+      );
     }
   },
   created() {},
@@ -82,9 +86,17 @@ export default {
     toggleFormDisplay() {
       this.isFormDisplayed = !this.isFormDisplayed;
     },
+    resetActivity() {
+      this.newActivity.title = "";
+      this.newActivity.notes = "";
+      this.newActivity.category = "";
+    },
     createActivity() {
-      createActivityAPI(this.newActivity).then(activity => {
+      // improve by using rest to send copy of obj
+      createActivityAPI({ ...this.newActivity }).then(activity => {
         this.$emit("activityCreated", { ...activity });
+        this.resetActivity();
+        this.isFormDisplayed = false;
       });
     }
   }
