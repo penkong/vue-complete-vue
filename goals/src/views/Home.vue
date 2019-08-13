@@ -3,7 +3,7 @@
     <section class="container">
       <div class="columns">
         <div class="column is-3">
-          <ActivityCreate :categories="categories" />
+          <ActivityCreate @activityCreated="addActivity" :categories="categories" />
         </div>
         <div class="column is-9">
           <div class="box content">
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 import ActivityItem from "@/components/ActivityItem";
 import ActivityCreate from "@/components/ActivityCreate";
 import { fetchActivities, fetchCategories, fetchUser } from "@/api";
@@ -59,7 +60,16 @@ export default {
     this.user = fetchUser();
     this.categories = fetchCategories();
   },
-  methods: {}
+  methods: {
+    addActivity(newActivity) {
+      // this.activities[newActivity.id] = newActivity;
+      // use set of vue
+      // 3args = obj we want add to it, id , what will add to it.
+      // vue set bring reactivity.
+      Vue.set(this.activities, newActivity.id, newActivity);
+      console.log(this.activities);
+    }
+  }
 };
 </script>
 

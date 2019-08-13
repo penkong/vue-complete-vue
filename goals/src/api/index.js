@@ -21,6 +21,18 @@ export const fetchActivities = () => {
   };
 };
 
+const generateUID = () => Math.floor(new Date() * Math.random());
+
+export const createActivityAPI = activity => {
+  activity.id = generateUID();
+  activity.progress = 0;
+  activity.createdAt = new Date();
+  activity.updatedAt = new Date();
+  return new Promise((resolve, reject) => {
+    resolve(activity);
+  });
+};
+
 export const fetchCategories = () => {
   return {
     "1546969049": {

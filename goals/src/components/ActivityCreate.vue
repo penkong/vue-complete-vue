@@ -16,13 +16,18 @@
           </div>
         </div>
         <div class="field">
-          <label class="label">Title</label>
+          <label class="label">Notes</label>
           <div class="control">
-            <input v-model="newActivity.title" class="input" type="text" placeholder="Read a Book" />
+            <textarea
+              v-model="newActivity.notes"
+              class="input"
+              type="text"
+              placeholder="Read a Book"
+            />
           </div>
         </div>
         <div class="field">
-          <label class="label">Notes</label>
+          <label class="label">Category</label>
           <div class="control">
             <select v-model="newActivity.category" class="select">
               <option disabled value>Please Select</option>
@@ -33,13 +38,13 @@
         <div class="field is-grouped">
           <div class="control">
             <button
-              @click="createActivity"
+              @click.prevent="createActivity"
               :disabled="!isFormValid"
               class="button is-link"
-            >Create Activity</button>
+            >Create</button>
           </div>
           <div class="control">
-            <button @click="toggleFormDisplay" class="button is-text">Cancel</button>
+            <button @click.prevent="toggleFormDisplay" class="button is-text">Cancel</button>
           </div>
         </div>
       </form>
@@ -48,6 +53,7 @@
 </template>
 
 <script>
+import { createActivityAPI } from "@/api";
 export default {
   name: "ActivityCreate",
   props: {
@@ -77,7 +83,9 @@ export default {
       this.isFormDisplayed = !this.isFormDisplayed;
     },
     createActivity() {
-      console.log(this.newActivity);
+      createActivityAPI(this.newActivity).then(activity => {
+        this.$emit("activityCreated", { ...activity });
+      });
     }
   }
 };
